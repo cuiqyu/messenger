@@ -20,5 +20,7 @@ import java.util.Map;
 public class SmsConfig {
 
     private Map<Integer, String> templateCodeMap;
+    private String accessKeyId;
+    private String accessKeysecret;
 
 }

@@ -19,17 +19,16 @@
             <outputDirectory>${file.separator}</outputDirectory>
             <!--设置要打进jar包的文件-->
             <excludes>
-<!--                <exclude>static/**</exclude>
+                <exclude>static/**</exclude>
                 <exclude>templates/**</exclude>
-                <exclude>application.yml</exclude>-->
+                <exclude>assembly.xml</exclude>
+                <!--<exclude>application.yml</exclude>-->
             </excludes>
             <!--设置要打到jar包外面的文件-->
             <includes>
-                <include>application.yml</include>
-                <include>application-dev.yml</include>
-                <include>application-prod.yml</include>
-                <include>assembly.xml</include>
+                <include>application*.yml</include>
                 <include>server.sh</include>
+                <include>config/**</include>
             </includes>
         </fileSet>
         <fileSet>

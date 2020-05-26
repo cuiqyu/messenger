@@ -5,3 +5,5 @@ sms:
     3: "SMS_00003"
     4: "SMS_00004"
     5: "SMS_00005"
+  accessKeyId: 121212
+  accessKeysecret: 12121212
