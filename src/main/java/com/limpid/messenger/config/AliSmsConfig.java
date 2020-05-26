@@ -14,13 +14,15 @@ import java.util.Map;
  * @create 2020/5/26 15:04
  */
 @Configuration
-@ConfigurationProperties(prefix = "sms")
+@ConfigurationProperties(prefix = "sms.ali")
 @PropertySource(value = "classpath:/config/sms_config.yml", encoding = "utf-8", factory = CustomerPropertySourceFactory.class)
 @Data
-public class SmsConfig {
+public class AliSmsConfig {
 
+    private String signName;
     private Map<Integer, String> templateCodeMap;
     private String accessKeyId;
-    private String accessKeysecret;
+    private String accessKeySecret;
+    private String action;
 
 }
