@@ -1,6 +1,7 @@
 package com.limpid.messenger.controller;
 
 import com.limpid.messenger.annotation.InternalExceptionHandler;
+import com.limpid.messenger.annotation.LogHawkeye;
 import com.limpid.messenger.annotation.ResponseDataHandler;
 import com.limpid.messenger.vo.SmsMessageVO;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +22,9 @@ public class SmsController {
 
     @PostMapping("/sendMessage")
     @ResponseDataHandler
+    @LogHawkeye
     public Boolean sendMessage(@RequestBody SmsMessageVO smsMessageVO) {
+
         return false;
     }
 

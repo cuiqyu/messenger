@@ -1,0 +1,7 @@
+sms:
+  templateCodeMap:
+    1: "SMS_00001"
+    2: "SMS_00002"
+    3: "SMS_00003"
+    4: "SMS_00004"
+    5: "SMS_00005"
