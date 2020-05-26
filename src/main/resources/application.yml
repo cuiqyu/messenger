@@ -1,4 +1,3 @@
-server:
-  port: 8080
-  servlet:
-    context-path: /messenger
+spring:
+  profiles:
+    active: dev
