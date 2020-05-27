@@ -1,16 +1,20 @@
 sms:
   ali:
     # 主账号AccessKey的ID
-    accessKeyId:
+    accessKeyId: todo
     # 主账号AccessKey对应的秘钥
-    accessKeySecret:
+    accessKeySecret: todo
     # 短信签名名称。请在控制台签名管理页面签名名称一列查看。
     # 说明 必须是已添加、并通过审核的短信签名。
-    signName:
+    signName: todo
     # 短信模板ID。请在控制台模板管理页面模板CODE一列查看。
     # 说明 必须是已添加、并通过审核的短信签名；且发送国际/港澳台消息时，请使用国际/港澳台短信模版。
     templateCodeMap:
-      1: SMS_00001
-      2: SMS_00002
+      1: todo
+      2: todo
     # 主账号AccessKey的ID。
     action: SendSms
+    # 发送短信验证码的数字位数，默认6位数
+    verificationCodeLength: 6
+    # 手机验证码发送时间间隔（单位：s）
+    verificationCodeInterval: 30

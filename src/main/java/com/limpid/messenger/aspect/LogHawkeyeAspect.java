@@ -73,15 +73,19 @@ public class LogHawkeyeAspect {
         logger.info("请求IP：{}", request.getRemoteAddr());
         // 请求入参
         logger.info("请求入参：{}", JSON.toJSONString(joinPoint.getArgs()));
-        Object proceed = joinPoint.proceed();
+        Object proceed = null;
+        try {
+            proceed = joinPoint.proceed();
+        } finally {
+            // 请求开始的时间戳
+            long endTime = System.currentTimeMillis();
+            // 请求耗时
+            logger.info("请求耗时：{}ms", endTime - startTime);
+            // 请求返回
+            logger.info("请求返回：{}", JSON.toJSONString(proceed));
+            logger.info("=====================请求结束=====================");
+        }
 
-        // 请求开始的时间戳
-        long endTime = System.currentTimeMillis();
-        // 请求耗时
-        logger.info("请求耗时：{}ms", endTime - startTime);
-        // 请求返回
-        logger.info("请求返回：{}", JSON.toJSONString(proceed));
-        logger.info("=====================请求结束=====================");
         return proceed;
     }
 

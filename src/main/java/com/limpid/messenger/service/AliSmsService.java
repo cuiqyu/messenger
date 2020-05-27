@@ -35,14 +35,13 @@ public interface AliSmsService {
     CommonResponse sendBatchMessage(List<String> cellphones, Integer templateCodeType, String templateParam);
 
     /**
-     * @param cellphone        发送的手机号
-     * @param templateCodeType 发送短信的模板类型
+     * @param cellphone 发送的手机号
      * @return com.aliyuncs.CommonResponse
      * @description 给用户发送短信验证码
      * @author cuiqiongyu
      * @date 23:05 2020-05-26
      **/
-    CommonResponse sendVerificationCode(String cellphone, Integer templateCodeType);
+    String sendVerificationCode(String cellphone);
 
 
 }

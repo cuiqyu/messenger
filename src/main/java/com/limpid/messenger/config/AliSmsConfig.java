@@ -23,6 +23,7 @@ public class AliSmsConfig {
     private Map<Integer, String> templateCodeMap;
     private String accessKeyId;
     private String accessKeySecret;
-    private String action;
+    private Integer verificationCodeLength;
+    private Integer verificationCodeInterval = 0;
 
 }
