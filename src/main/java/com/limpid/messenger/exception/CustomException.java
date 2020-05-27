@@ -25,8 +25,8 @@ public class CustomException extends RuntimeException {
     }
 
     public CustomException(GlobalConstant.ResponseState state) {
+        super(state.getMessage());
         this.code = state.getCode();
-        this.data = state.getMessage();
     }
 
     public CustomException(Integer code, String message) {

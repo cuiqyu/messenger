@@ -89,6 +89,7 @@ public class AliSmsServiceImpl implements AliSmsService {
 
     @Override
     public String sendVerificationCode(String cellphone) {
+        CustomExceptionAssert.notEmpty(cellphone, GlobalConstant.ResponseState.CELLPHONE_NOT_NULL);
         // 生成指定位数的随机验证码
         Integer verificationCodeLength = aliSmsConfig.getVerificationCodeLength();
         // 默认6位数

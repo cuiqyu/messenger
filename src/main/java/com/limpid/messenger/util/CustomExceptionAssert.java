@@ -55,6 +55,12 @@ public abstract class CustomExceptionAssert {
         notNull(object, "this argument is required; it must not be null");
     }
 
+    public static void notEmpty(String str, GlobalConstant.ResponseState state) {
+        if (StringUtils.isEmpty(str)) {
+            throw new CustomException(state);
+        }
+    }
+
     public static void notEmpty(String str, String message) {
         if (StringUtils.isEmpty(str)) {
             throw new CustomException(message);
