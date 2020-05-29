@@ -19,7 +19,7 @@ public class ResponseData<T> implements Serializable {
 
     private static final long serialVersionUID = -295323839556640626L;
 
-    private int code;
+    private String code;
     private String message = "";
     private T data;
 

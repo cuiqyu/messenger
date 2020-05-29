@@ -27,7 +27,7 @@ public class SmsController {
 
     @PostMapping("/sendMessage")
     @ResponseDataHandler
-    @LogHawkeye
+    // @LogHawkeye
     public String sendMessage(@RequestBody SmsMessageVO smsMessageVO) {
         return aliSmsService.sendVerificationCode(smsMessageVO.getCellphone());
     }

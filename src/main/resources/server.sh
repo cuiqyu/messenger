@@ -4,7 +4,7 @@ pid_file='pid.pid'
 start()
 {
         echo $"Starting messenger application server ......"
-        java -server -Xms256m -Xmx256m  -jar messenger.jar > output 2>&1 &
+        java -server -Xms512m -Xmx512m  -jar messenger.jar > output 2>&1 &
         echo $! > $pid_file
 
         echo $"messenger application server started!"

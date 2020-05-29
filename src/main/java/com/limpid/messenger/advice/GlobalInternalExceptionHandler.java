@@ -42,7 +42,7 @@ public class GlobalInternalExceptionHandler extends ResponseEntityExceptionHandl
         return handlerExceptionResponse(GlobalConstant.ResponseState.SYSTEM_ERROR.getCode(), GlobalConstant.ResponseState.SYSTEM_ERROR.getMessage(), null);
     }
 
-    public ResponseEntity<Object> handlerExceptionResponse(int code, String message, Object data) {
+    public ResponseEntity<Object> handlerExceptionResponse(String code, String message, Object data) {
         ResponseData<Object> responseData = new ResponseData<>(code, message, data);
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }

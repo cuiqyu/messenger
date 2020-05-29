@@ -15,7 +15,7 @@ public class CustomException extends RuntimeException {
 
     private static final long serialVersionUID = 8316873551194247424L;
 
-    private Integer code;
+    private String code;
 
     private Object data;
 
@@ -29,29 +29,29 @@ public class CustomException extends RuntimeException {
         this.code = state.getCode();
     }
 
-    public CustomException(Integer code, String message) {
+    public CustomException(String code, String message) {
         super(message);
         this.code = code;
     }
 
-    public CustomException(Integer code, String message, Object data) {
+    public CustomException(String code, String message, Object data) {
         super(message);
         this.code = code;
         this.data = data;
     }
 
-    public CustomException(Integer code, Throwable throwable) {
+    public CustomException(String code, Throwable throwable) {
         super(throwable);
         this.code = code;
     }
 
 
-    public CustomException(String message, Throwable throwable, Integer code) {
+    public CustomException(String message, Throwable throwable, String code) {
         super(message, throwable);
         this.code = code;
     }
 
-    public CustomException(String message, Throwable throwable, boolean enableSuppression, boolean writableStackTrace, Integer code) {
+    public CustomException(String message, Throwable throwable, boolean enableSuppression, boolean writableStackTrace, String code) {
         super(message, throwable, enableSuppression, writableStackTrace);
         this.code = code;
     }

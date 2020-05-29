@@ -1,5 +1,6 @@
 package com.limpid.messenger.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.aliyuncs.CommonRequest;
 import com.aliyuncs.CommonResponse;
 import com.aliyuncs.DefaultAcsClient;
@@ -16,11 +17,13 @@ import com.limpid.messenger.exception.CustomException;
 import com.limpid.messenger.service.AliSmsService;
 import com.limpid.messenger.util.CustomExceptionAssert;
 import com.limpid.messenger.util.ExceptionUtil;
+import com.limpid.messenger.vo.client.ali.AliSengSmsResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -71,7 +74,10 @@ public class AliSmsServiceImpl implements AliSmsService {
 
         try {
             CommonResponse response = client.getCommonResponse(request);
-            logger.info("发送短信结果：{}", response);
+            if (Integer.valueOf(200).compareTo(response.getHttpStatus()) != 0) {
+                logger.error("阿里云发送短信服务异常，response：{}", JSON.toJSONString(response));
+                throw new CustomException(GlobalConstant.ResponseState.SMS_SEND_FAIL);
+            }
             return response;
         } catch (ServerException e) {
             logger.error("阿里云发送短信服务异常，e：{}", ExceptionUtil.getDesc(e));
@@ -109,7 +115,16 @@ public class AliSmsServiceImpl implements AliSmsService {
         }
 
         // 发送短信验证码
-        sendMessage(cellphone, 1, null);
+        Map<String, String> templateParamMap = new HashMap<>();
+        templateParamMap.put("code", code.toString());
+        CommonResponse commonResponse = sendMessage(cellphone, 1, JSON.toJSONString(templateParamMap));
+        AliSengSmsResponse aliSengSmsResponse = JSON.parseObject(commonResponse.getData(), AliSengSmsResponse.class);
+        if (null == aliSengSmsResponse) {
+            throw new CustomException(GlobalConstant.ResponseState.SMS_SEND_FAIL);
+        }
+        if (!"OK".equals(aliSengSmsResponse.getCode())) {
+            throw new CustomException(aliSengSmsResponse.getCode(), aliSengSmsResponse.getMessage());
+        }
 
         verificationCodeSendTimeCache.putCache(cellphone, currentTimeMillis);
         return code.toString();
