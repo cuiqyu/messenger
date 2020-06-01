@@ -6,9 +6,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1"/>
 	<title>华鑫e融</title>
-	<link rel="stylesheet" href="css/font-awesome.min.css">
-	<link rel="stylesheet" href="css/mobiscroll-2.13.2.full.min.css">
-	<link rel="stylesheet" href="css/index.css">
+	<link rel="stylesheet" href="../css/font-awesome.min.css">
+	<link rel="stylesheet" href="../css/mobiscroll-2.13.2.full.min.css">
+	<link rel="stylesheet" href="../css/index.css">
 	<style>
 	    #cover{ 
 		    position:absolute;left:0px;top:0px;
@@ -72,31 +72,31 @@
 	<!-- 头图 -->
 	<header class="headImg">
 	<!-- <img src="http://www.11ec.cn/themes/crm1/public/assets/images/2bcc5068a03d476aaeac09406c7b05c1.jpg" alt="">-->
-<img src="images/header.jpg" class="img-responsive" alt="Cinque Terre" style='width:100%;height:auto;'>
+<img src="../images/header.jpg" class="img-responsive" alt="Cinque Terre" style='width:100%;height:auto;'>
 	</header>
 	<!-- 表单 -->
 	<form action="/portal/index/addpost.html" method="post" class="newForm">
 		<div class="cons">
 			<!-- 姓名 -->
 			<div class="conItem">
-				<img src="images/wo.png" alt="" class="icon">
+				<img src="../images/wo.png" alt="" class="icon">
 				<input type="text" class="inputItem" name="username" id="name" placeholder="您的姓名">
 			</div>
 			<!-- 手机号 -->
 			<div class="conItem">
-				<img src="images/phone.png" alt="" class="icon">
+				<img src="../images/phone.png" alt="" class="icon">
 				<input type="text" class="inputItem" name="tel" id="tel" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="11" placeholder="您的手机号">
 				<input type="button" id="codeBtn" value="获取验证码" onclick="settime(this)" style="background-color:#03006d;color:#fff;">
 			</div>
 			<!-- 验证码 -->
 			<div class="conItem">
-				<img src="images/phone.png" alt="" class="icon">
+				<img src="../images/phone.png" alt="" class="icon">
 				<input type="text" class="inputItem" name="code" id="code" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="11" placeholder="验证码">
 			</div>
 
 			<!-- 意向金额 -->
 			<div class="conItem">
-				<img src="images/money.png" alt="" class="icon">
+				<img src="../images/money.png" alt="" class="icon">
 					 <select name="price" id="" class="inputItem" style="border:none;outline: none;background:#fff;">
 					<!--<option value='0'>请选择贷款金额</option>-->
                     <option value='30000'>3万</option>
@@ -107,7 +107,7 @@
 			</div>
 			<!-- 城市选择 -->
 			<div class="conItem" id="city_3">
-                <img src="images/city.png" alt="" class="icon">
+                <img src="../images/city.png" alt="" class="icon">
                 <select class="prov inputItem" style="width:49%;float:left;margin-right:2%;border:none;outline: none;background:#fff;"></select> 
                 <select class="city inputItem" style="width:49%;float:left;border:none;outline: none;background:#fff;" disabled="disabled"></select>
 				<!--<select name="sheng" id="sheng" style="width:49%;float:left;margin-right:2%;border:none;outline: none;background:#fff;" class="inputItem">
@@ -204,7 +204,7 @@
 		<div class="content">
 			<div class="adv-item">
 				<a href="###" class="advImg">
-					<img src="images/a01.png" alt="">
+					<img src="../images/a01.png" alt="">
 				</a>
 				<div class="advCon">
 					<p>数据全面</p>
@@ -213,7 +213,7 @@
 			</div>
 			<div class="adv-item">
 				<a href="###" class="advImg">
-					<img src="images/a02.png" alt="">
+					<img src="../images/a02.png" alt="">
 				</a>
 				<div class="advCon">
 					<p>安全保密</p>
@@ -222,7 +222,7 @@
 			</div>
 			<div class="adv-item">
 				<a href="###" class="advImg">
-					<img src="images/a03.png" alt="">
+					<img src="../images/a03.png" alt="">
 				</a>
 				<div class="advCon">
 					<p>自由分期</p>
@@ -231,7 +231,7 @@
 			</div>
 			<div class="adv-item">
 				<a href="###" class="advImg">
-					<img src="images/a04.png" alt="">
+					<img src="../images/a04.png" alt="">
 				</a>
 				<div class="advCon">
 					<p>银行放款</p>
@@ -244,9 +244,9 @@
 	<footer>
         市场有风险，选择需谨慎 请根据个人能力合理贷款，理性消费，避免逾期 贷款额度、放款时间以实际审批结果为准	</footer>
 	
-	<script src="js/jquery.min.js"></script>
-    <script src="js/mobiscroll-2.13.2.full.min.js"></script>
-    <script type="text/javascript" src="js/jquery.cityselect.js"></script>
+	<script src="../js/jquery.min.js"></script>
+    <script src="../js/mobiscroll-2.13.2.full.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.cityselect.js"></script>
 	<script>
 	    $('#xy').click(function(){
 	        var a = $(this).val();
