@@ -1,3 +1,6 @@
 spring:
   profiles:
     active: dev
+  mvc:
+    # 配置静态文件地址
+    static-path-pattern: /static/**
