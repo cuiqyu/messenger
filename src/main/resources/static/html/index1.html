@@ -1,78 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="renderer" content="webkit">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
 	<title>华鑫e融</title>
 	<link rel="stylesheet" href="../css/font-awesome.min.css">
 	<link rel="stylesheet" href="../css/mobiscroll-2.13.2.full.min.css">
 	<link rel="stylesheet" href="../css/index.css">
 	<style>
-	    #cover{ 
-		    position:absolute;left:0px;top:0px;
-		    background:rgba(0, 0, 0, 0.8);
-		    width:100%;  /*宽度设置为100%，这样才能使隐藏背景层覆盖原页面*/
-		    filter:alpha(opacity=60);  /*设置透明度为60%*/
-		    opacity:0.6;  /*非IE浏览器下设置透明度为60%*/
-		    display:none; 
-		    z-Index:999;  
+		#cover {
+			position: absolute;
+			left: 0px;
+			top: 0px;
+			background: rgba(0, 0, 0, 0.8);
+			width: 100%;
+			/*宽度设置为100%，这样才能使隐藏背景层覆盖原页面*/
+			filter: alpha(opacity=60);
+			/*设置透明度为60%*/
+			opacity: 0.6;
+			/*非IE浏览器下设置透明度为60%*/
+			display: none;
+			z-Index: 999;
 		}
-		#modal{ 
-		    border-radius:15px;
-		    padding:12px;
-		    position:absolute;
-		    top:50%;
-		    transform:translateY(-50%);
-		    left:50%;
-		    transform:translateX(-50%);
-		    width:80%;
-		    height:230px;
-		    background-color:#fff;
-		    display:none;
-		    cursor:pointer;
-		    z-Index:9999;  
+
+		#modal {
+			border-radius: 15px;
+			padding: 12px;
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			left: 50%;
+			transform: translateX(-50%);
+			width: 80%;
+			height: 230px;
+			background-color: #fff;
+			display: none;
+			cursor: pointer;
+			z-Index: 9999;
 		}
-		
-		#close{
-		    width:100%;
-		    height:50px;
-		    text-align: center;
-		    line-height: 50px;
-		    border-top:1px solid #ccc;
+
+		#close {
+			width: 100%;
+			height: 50px;
+			text-align: center;
+			line-height: 50px;
+			border-top: 1px solid #ccc;
 		}
-		#modal-title{
-		    
-		    text-align: center;
-		    height: 50px;
-		    line-height: 50px;
+
+		#modal-title {
+
+			text-align: center;
+			height: 50px;
+			line-height: 50px;
 		}
-		#modal-content{
-		    padding: 10 10px;
-		    height:110px;
-		    color:#aaa;
-		    font-size: 18px;
-		    line-height: 30px;
+
+		#modal-content {
+			padding: 10 10px;
+			height: 110px;
+			color: #aaa;
+			font-size: 18px;
+			line-height: 30px;
 		}
 	</style>
 </head>
+
 <body id="bg-blue">
-    <!--遮罩层居中-->
-    <div id="cover"></div>
-    <div id="modal">
-        <div id="modal-title">
-        温馨提示
-        </div>
-        <div id="modal-content">
-            提交成功！请保持手机畅通，您的专属顾问会在1小时内与您联系！（工作时间09:00~18:00）
-        </div>
-	    <div id="close">确定</div>
+	<!--遮罩层居中-->
+	<div id="cover"></div>
+	<div id="modal">
+		<div id="modal-title">
+			温馨提示
+		</div>
+		<div id="modal-content">
+			提交成功！请保持手机畅通，您的专属顾问会在1小时内与您联系！（工作时间09:00~18:00）
+		</div>
+		<div id="close">确定</div>
 	</div>
 	<!-- 头图 -->
 	<header class="headImg">
-	<!-- <img src="http://www.11ec.cn/themes/crm1/public/assets/images/2bcc5068a03d476aaeac09406c7b05c1.jpg" alt="">-->
-<img src="../images/header.jpg" class="img-responsive" alt="Cinque Terre" style='width:100%;height:auto;'>
+		<!-- <img src="http://www.11ec.cn/themes/crm1/public/assets/images/2bcc5068a03d476aaeac09406c7b05c1.jpg" alt="">-->
+		<img src="../images/header.jpg" class="img-responsive" alt="Cinque Terre" style='width:100%;height:auto;'>
 	</header>
 	<!-- 表单 -->
 	<form action="/portal/index/addpost.html" method="post" class="newForm">
@@ -85,31 +95,36 @@
 			<!-- 手机号 -->
 			<div class="conItem">
 				<img src="../images/phone.png" alt="" class="icon">
-				<input type="text" class="inputItem" name="tel" id="tel" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="11" placeholder="您的手机号">
-				<input type="button" id="codeBtn" value="获取验证码" onclick="settime(this)" style="background-color:#03006d;color:#fff;">
+				<input type="text" class="inputItem" name="tel" id="tel" onkeyup="value=value.replace(/[^\d]/g,'')"
+					maxlength="11" placeholder="您的手机号">
+				<input type="button" id="codeBtn" value="获取验证码" onclick="settime(this)"
+					style="background-color:#03006d;color:#fff;">
 			</div>
 			<!-- 验证码 -->
 			<div class="conItem">
 				<img src="../images/phone.png" alt="" class="icon">
-				<input type="text" class="inputItem" name="code" id="code" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="11" placeholder="验证码">
+				<input type="text" class="inputItem" name="code" id="code" onkeyup="value=value.replace(/[^\d]/g,'')"
+					maxlength="11" placeholder="验证码">
 			</div>
 
 			<!-- 意向金额 -->
 			<div class="conItem">
 				<img src="../images/money.png" alt="" class="icon">
-					 <select name="price" id="" class="inputItem" style="border:none;outline: none;background:#fff;">
+				<select name="price" id="" class="inputItem" style="border:none;outline: none;background:#fff;">
 					<!--<option value='0'>请选择贷款金额</option>-->
-                    <option value='30000'>3万</option>
-                    <option value='50000'>5万</option>
-                    <option value='100000'>10万</option>
-                    <option value='250000'>25万以上</option>
-				</select> 
+					<option value='30000'>3万</option>
+					<option value='50000'>5万</option>
+					<option value='100000'>10万</option>
+					<option value='250000'>25万以上</option>
+				</select>
 			</div>
 			<!-- 城市选择 -->
 			<div class="conItem" id="city_3">
-                <img src="../images/city.png" alt="" class="icon">
-                <select class="prov inputItem" style="width:49%;float:left;margin-right:2%;border:none;outline: none;background:#fff;"></select> 
-                <select class="city inputItem" style="width:49%;float:left;border:none;outline: none;background:#fff;" disabled="disabled"></select>
+				<img src="../images/city.png" alt="" class="icon">
+				<select class="prov inputItem"
+					style="width:49%;float:left;margin-right:2%;border:none;outline: none;background:#fff;"></select>
+				<select class="city inputItem" style="width:49%;float:left;border:none;outline: none;background:#fff;"
+					disabled="disabled"></select>
 				<!--<select name="sheng" id="sheng" style="width:49%;float:left;margin-right:2%;border:none;outline: none;background:#fff;" class="inputItem">
                                                                     <option  value="110000">北京市</option>
                                                                         <option  value="120000">天津市</option>
@@ -156,40 +171,42 @@
 		<!-- 多选 -->
 		<div class="select-part">
 			<div class="checkbox-wrap">
-                            		<label for="one" class="checkbox-item">
-            			<span>工资</span>
-            			<input type="checkbox" name="title[]" class="checkbox" id="one" value="工资">
-            		</label>
-        		            		<label for="one" class="checkbox-item">
-            			<span>房子</span>
-            			<input type="checkbox" name="title[]" class="checkbox" id="one" value="房子">
-            		</label>
-        		            		<label for="one" class="checkbox-item">
-            			<span>车子</span>
-            			<input type="checkbox" name="title[]" class="checkbox" id="one" value="车子">
-            		</label>
-        		            		<label for="one" class="checkbox-item">
-            			<span>公积金</span>
-            			<input type="checkbox" name="title[]" class="checkbox" id="one" value="公积金">
-            		</label>
-        		            		<label for="one" class="checkbox-item">
-            			<span>营业执照</span>
-            			<input type="checkbox" name="title[]" class="checkbox" id="one" value="营业执照">
-            		</label>
-        		            		<label for="one" class="checkbox-item">
-            			<span>保单</span>
-            			<input type="checkbox" name="title[]" class="checkbox" id="one" value="保单">
-            		</label>
-        		        	</div>
+				<label for="one" class="checkbox-item">
+					<span>工资</span>
+					<input type="checkbox" name="title[]" class="checkbox" id="one" value="工资">
+				</label>
+				<label for="one" class="checkbox-item">
+					<span>房子</span>
+					<input type="checkbox" name="title[]" class="checkbox" id="one" value="房子">
+				</label>
+				<label for="one" class="checkbox-item">
+					<span>车子</span>
+					<input type="checkbox" name="title[]" class="checkbox" id="one" value="车子">
+				</label>
+				<label for="one" class="checkbox-item">
+					<span>公积金</span>
+					<input type="checkbox" name="title[]" class="checkbox" id="one" value="公积金">
+				</label>
+				<label for="one" class="checkbox-item">
+					<span>营业执照</span>
+					<input type="checkbox" name="title[]" class="checkbox" id="one" value="营业执照">
+				</label>
+				<label for="one" class="checkbox-item">
+					<span>保单</span>
+					<input type="checkbox" name="title[]" class="checkbox" id="one" value="保单">
+				</label>
+			</div>
 		</div>
 		<div class='conItem'>
-		    
+
 		</div>
 		<div class="btn-wrap">
-		    <div class='xy' style='color:#00BFFF;position:relative;top:-15px;'>
-		        <input type="checkbox" name="" id='xy' value='1' style="-webkit-appearance:checkbox;width:15px;height:13px;" checked="checked"><a href="#" style="margin-left:5px;font-size:13px;">提交表示同意《保密协议和隐私协议》</a>
-		    </div>
-		    <input type="hidden" name="type" value="7">
+			<div class='xy' style='color:#00BFFF;position:relative;top:-15px;'>
+				<input type="checkbox" name="" id='xy' value='1'
+					style="-webkit-appearance:checkbox;width:15px;height:13px;" checked="checked"><a href="#"
+					style="margin-left:5px;font-size:13px;">提交表示同意《保密协议和隐私协议》</a>
+			</div>
+			<input type="hidden" name="type" value="7">
 			<a class="btn" id="submit" href="###">看 看 我 能 借 多 少</a>
 		</div>
 	</form>
@@ -242,184 +259,214 @@
 	</section>
 	<!-- 底部 -->
 	<footer>
-        市场有风险，选择需谨慎 请根据个人能力合理贷款，理性消费，避免逾期 贷款额度、放款时间以实际审批结果为准	</footer>
-	
+		市场有风险，选择需谨慎 请根据个人能力合理贷款，理性消费，避免逾期 贷款额度、放款时间以实际审批结果为准 </footer>
+
 	<script src="../js/jquery.min.js"></script>
-    <script src="../js/mobiscroll-2.13.2.full.min.js"></script>
-    <script type="text/javascript" src="../js/jquery.cityselect.js"></script>
+	<script src="../js/mobiscroll-2.13.2.full.min.js"></script>
+	<script type="text/javascript" src="../js/jquery.cityselect.js"></script>
 	<script>
-	    $('#xy').click(function(){
-	        var a = $(this).val();
-	        if(a == 1){
-	            //设置为未选中状态
-	            $(this).val(0);
-	            $(this).attr('checked',false);
-	        }else if(a == 0){
-	            //设置为选中状态
-	            $(this).val(1);
-	            $(this).attr('checked',true);
-	        }
-	    });
-       
-	    
-	    $('#submit').click(function(){
-	        var d = {};
+		let apiName='https://api.eteams.cn';
+		function authorize() {
+			$.get(apiName+"/oauth2/authorize?corpid=bcb0da1b7e81d73d3d4288690b7e96c2&response_type=code&state=a", function (msg) {
+				console.log(msg.code);
+				if (msg.code) {
+					token(msg.code);
+				}
+			});
+		};
+		authorize();
+        //判断token
+		function token(code){
+			$.ajax({
+                type: "post",
+               url:apiName+"/oauth2/access_token?app_key=ae825caafd21ac69d52f0ce264c81228&app_secret=b44ab81be965708310e517f01084d16a&grant_type=authorization_code&code="+code,
+               contentType: "application/x-www-form-urlencoded",
+               success: function (data) {
+					console.log(data);
+					userId(data.accessToken);
+			   }})
+		}
+		//判断userId
+		function userId(access){
+			$.get(apiName+"/user/v2/findUser?access_token="+access+"&name=111", function (msg) {
+				console.log(msg);
+				
+			});
+		}
+		$('#xy').click(function () {
+			var a = $(this).val();
+			if (a == 1) {
+				//设置为未选中状态
+				$(this).val(0);
+				$(this).attr('checked', false);
+			} else if (a == 0) {
+				//设置为选中状态
+				$(this).val(1);
+				$(this).attr('checked', true);
+			}
+		});
+
+
+		$('#submit').click(function () {
+			var d = {};
 			var is_yes = true;
 			var data = $('form').serializeArray();
-			$.each(data, function() {
+			$.each(data, function () {
 
-		      d[this.name] = this.value;
-		    });
-		    
-		    if(!d.username){
-		        alert('请输入姓名');
-		        is_yes = false;
-		        return false;
-		    }
-		    
-		    if(d.price == 0){
-		        alert('请选择贷款额度');
-		        is_yes = false;
-		        return false;
-		    }
-		    
-		    if(!d.sheng){
-		        alert('请选择省份');
-		        is_yes = false;
-		        return false;
-		    }
-		    
-		    if(!d.city){
-		        alert('请选择城市');
-		        is_yes = false;
-		        return false;
-		    }
-		    
-		    if(isPhoneNo(d.tel) == false){
+				d[this.name] = this.value;
+			});
+
+			if (!d.username) {
+				alert('请输入姓名');
+				is_yes = false;
+				return false;
+			}
+
+			if (d.price == 0) {
+				alert('请选择贷款额度');
+				is_yes = false;
+				return false;
+			}
+
+			if (!d.sheng) {
+				alert('请选择省份');
+				is_yes = false;
+				return false;
+			}
+
+			if (!d.city) {
+				alert('请选择城市');
+				is_yes = false;
+				return false;
+			}
+
+			if (isPhoneNo(d.tel) == false) {
 				alert("请输入正确电话号");
 				is_yes = false;
 				return false;
 			}
-			
-			if(is_yes){
-		    	$.post("/portal/index/addpost.html",d,function(res){
 
-		    		
-		    		if(res == 0){
-		    		    alert("服务器正忙");
-		    		    return false;
-		    		}
-		    		
-		    		if(res == 2){
-		    		    alert("验证码不正确");
-		    		    return false;
-		    		}
-		    		if(res == 6){
-		    		    alert("服务器正忙");
-		    		    return false;
-		    		}
-		    		$('#modal').show();
-                    $('#cover').show();
-		    		
-		    		$.post("/portal/index/cg.html",res,function(res1){
-		    		    for (var i =0; i <res1.length; i++) {
-                            var workid = 0;
-                            workid = res1[i];
-                            ws = new WebSocket("ws://127.0.0.1:2000");
-                            ws.onopen = function() {
-                                alert(workid);ws.send(workid+',您有新的客户');
-                            };
-                        };
-		    		},'JSON');
-		    	},'JSON');
+			if (is_yes) {
+				$.post("/portal/index/addpost.html", d, function (res) {
+
+
+					if (res == 0) {
+						alert("服务器正忙");
+						return false;
+					}
+
+					if (res == 2) {
+						alert("验证码不正确");
+						return false;
+					}
+					if (res == 6) {
+						alert("服务器正忙");
+						return false;
+					}
+					$('#modal').show();
+					$('#cover').show();
+
+					$.post("/portal/index/cg.html", res, function (res1) {
+						for (var i = 0; i < res1.length; i++) {
+							var workid = 0;
+							workid = res1[i];
+							ws = new WebSocket("ws://127.0.0.1:2000");
+							ws.onopen = function () {
+								alert(workid); ws.send(workid + ',您有新的客户');
+							};
+						};
+					}, 'JSON');
+				}, 'JSON');
 			}
-	    });
-	    
-	    function isPhoneNo(phone) { 
-		var pattern = /^1[34578]\d{9}$/; 
-		return pattern.test(phone); } 
-	    
-	    $('#close').click(function(){
-	        $('#modal').hide();
-	        $('#cover').hide();
-	    });
-	    
-	    //获取手机屏幕高度
-	    var h = $(document.body).height();
-	    $('#cover').css('height',''+h+'px');
-	    
-        $(function(){
-            $("#city_3").citySelect({
-                    prov: "江苏",
-                    city: "南京"
-                });
-        })
-	    //ajax
-        $('#sheng').change(function(){
-            var shengid = $(this).val();
+		});
 
-            $.post("/portal/index/citychange.html",{'shengid':shengid},function(data){
-                $('#city').html(data);
-            });
-        });
-	    
-	
+		function isPhoneNo(phone) {
+			var pattern = /^1[34578]\d{9}$/;
+			return pattern.test(phone);
+		}
+
+		$('#close').click(function () {
+			$('#modal').hide();
+			$('#cover').hide();
+		});
+
+		//获取手机屏幕高度
+		var h = $(document.body).height();
+		$('#cover').css('height', '' + h + 'px');
+
+		$(function () {
+			$("#city_3").citySelect({
+				prov: "江苏",
+				city: "南京"
+			});
+		})
+		//ajax
+		$('#sheng').change(function () {
+			var shengid = $(this).val();
+
+			$.post("/portal/index/citychange.html", { 'shengid': shengid }, function (data) {
+				$('#city').html(data);
+			});
+		});
+
+
 		// 验证码倒计时
-		var countdown=60; //设置时间
-		function settime(obj) { 
-		    if(obj.disabled !=true){
-		      var tel = $('#tel').val();
-		      if(isPhoneNo(tel) == false){
-				alert("请输入正确电话号");
-				return false;
+		var countdown = 60; //设置时间
+		function settime(obj) {
+			if (obj.disabled != true) {
+				var tel = $('#tel').val();
+				if (isPhoneNo(tel) == false) {
+					alert("请输入正确电话号");
+					return false;
+				}
+				$.post("/portal/index/getcode.html", { 'tel': tel }, function (res) {
+					if (res == 1) {
+						alert("验证码发送成功");
+					} else {
+						alert('服务器内部错误');
+					}
+				});
 			}
-		      $.post("/portal/index/getcode.html",{'tel':tel},function(res){
-		          if(res == 1){
-		              alert("验证码发送成功");
-		          }else{
-		              alert('服务器内部错误');
-		          }
-		      });
-		    }
-		    if (countdown == 0) { 
-		        obj.removeAttribute("disabled");    
-		        obj.value="重新发送验证码"; 
-		        countdown = 60; 
-		        return;
-		    } else { 
-		        obj.setAttribute("disabled", true); 
-		        obj.value="重新发送(" + countdown + ")"; 
-		        countdown--; 
-		    }
-		    
-			setTimeout(function() { settime(obj) },1000) 
-		} 
-		
-		$(function(){			
+			if (countdown == 0) {
+				obj.removeAttribute("disabled");
+				obj.value = "重新发送验证码";
+				countdown = 60;
+				return;
+			} else {
+				obj.setAttribute("disabled", true);
+				obj.value = "重新发送(" + countdown + ")";
+				countdown--;
+			}
+
+			setTimeout(function () { settime(obj) }, 1000)
+		}
+
+		$(function () {
 			// 岗位切换
-		    $("#cities").mobiscroll().treelist({  
-                theme: "android-ics light",  
-                lang: "zh",  
-                display: 'bottom',  
-                inputClass: 'tmp', 
-                defaultValue:[Math.floor($('#cities li').length/2)],
-                headerText: '城市',  
-                onSelect: function (valueText) {  
-                    var m = $(this).find("li").eq(valueText).html();  
-                    console.log(m,$('.tmp'));
-                    $('.tmp').val('');
-                    $('.tmp').prev().prev().val(m);
-                }  
-            });  
-            // 多选
-            $('.checkbox').on('click',function(){
-				if($(this).prop("checked")){
+			$("#cities").mobiscroll().treelist({
+				theme: "android-ics light",
+				lang: "zh",
+				display: 'bottom',
+				inputClass: 'tmp',
+				defaultValue: [Math.floor($('#cities li').length / 2)],
+				headerText: '城市',
+				onSelect: function (valueText) {
+					var m = $(this).find("li").eq(valueText).html();
+					console.log(m, $('.tmp'));
+					$('.tmp').val('');
+					$('.tmp').prev().prev().val(m);
+				}
+			});
+			// 多选
+			$('.checkbox').on('click', function () {
+				if ($(this).prop("checked")) {
 					$(this).parents('.checkbox-item').addClass('active')
-				}else{
+				} else {
 					$(this).parents('.checkbox-item').removeClass('active')
 				}
 			})
 		})
 	</script>
 </body>
+
 </html>
