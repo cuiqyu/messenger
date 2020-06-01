@@ -21,7 +21,7 @@
 
         // 默认值
         settings = $.extend({
-            url: "js/city.min.js",
+            url: "../js/city.min.js",
             prov: null,
             city: null,
             dist: null,
