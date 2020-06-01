@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>网上申请贷款服务</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <script src="https://resource1.unilifemedia.com/static/common/js/jq/jquery-1.8.3.min.js"></script>
+    <script src="https://resource1.unilifemedia.com/static/common/js/flex/flex_mobile.js"></script>
+    <style>
+        html {
+            font-size: 625%;
+        }
+
+        body,p,input{
+            width: 100%;
+            height: 100%;
+			padding:0;
+			margin:0;
+        }
+		input[type="text"]:focus,
+
+input[type="password"]:focus {
+
+border:0;
+line-height:.8rem;
+outline: none;
+
+}
+        .banner {
+            background: url("images/banner.jpg");
+            background-size: cover;
+            width: 100%;
+            height: 8.4rem;
+        }
+		.content{
+		width:4.8rem;
+		margin:0 auto;
+		font-size:.32rem;
+		font-weight:bold;
+		}
+		.content p{
+		text-align:center;
+		color:#383836;
+		font-size:.32rem;
+		margin:.64rem 0 .4rem 0;
+		
+		
+		}
+		.content input{
+			width:98%;
+		}
+		.content input,.content select{
+		background:#ededed;
+		height:.8rem;
+		line-height:.8rem;
+		border:0;
+		outline: none; 
+		border-radius:.1rem;
+		padding-left:.1rem;
+		font-size:.32rem;
+		margin-bottom:.1rem;
+		}
+		.content select{
+			width:100%;
+		}
+        .content  a {
+            display: block;
+            width: 1.98rem;
+            height: .7rem;
+			line-height:.7rem;
+			text-align:center;
+            margin: .4rem auto ;
+			background: #1974b7;
+			color:#fff;
+			border-radius:.1rem;
+			
+        }
+		.tips{
+			font-size:.32rem;
+		    font-weight:bold;
+			margin:0 auto;
+			width:90%;
+		
+		}
+		.tips img{width:.44rem;height:.44rem;vertical-align:middle;padding-right:.2rem;}
+		.tips span{padding-top:.5rem}
+    </style>
+</head>
+<script>
+
+$(function(){
+$(".content a").click(function(){
+   var cellphone =$(".content input").val();
+   if(cellphone==''){
+   toast("请填写手机号码");
+   }else if(!(/^1[3458]\d{9}$/.test(cellphone))){
+   toast("手机号码有误，请重新填写");
+   }else{
+    var ua = navigator.userAgent.toLowerCase();
+	console.log(cellphone);
+    if(ua.match(/MicroMessenger/i)=="micromessenger") {
+	getActivityUrl(cellphone,true);
+        
+    } else {
+       getActivityUrl(cellphone,false); 
+    }
+   
+   } 
+
+})
+ function getActivityUrl(cellphone,wxBrowserType){
+ console.log(cellphone);
+ console.log(wxBrowserType);
+ var $param=JSON.stringify({
+ "cellphone":cellphone,
+ "shopCode":"test_shopCode",
+ "userCode":"test_userCode",
+ "wxBrowserType":wxBrowserType
+});
+ $.ajax({
+    type:'post',
+    cache:false,
+    async:false,
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    url:'/uweb/service/appshopV2/yiheng/getActivityUrl',
+    data:$param,
+    success: function(data){
+       console.log(data)
+	   if(data.state=="000000"){
+	    window.location.href = data.data;
+	   }else{
+	   toast(data.msg);
+	   }
+    },
+    error : function(xhr, ts, et) {
+	
+       
+    }
+});
+
+
+
+ }
+
+//toast提示
+function toast(message){
+	    var msl=message.length;
+	    if(msl.length==0||typeof  message != 'string'){
+	        return;
+	    }
+	    var board=document.createElement('div');
+	    var ele=document.createElement('label');
+	    var boardCSS="position:fixed;width:100%;text-align:center;bottom:40%;z-index:99999";
+	    board.setAttribute('style',boardCSS);
+	    board.appendChild(ele);
+	    var eleCSS='text-align:center;width:auto;display:inline-block;font-size:.32rem;line-height:.32rem;padding:0.2rem;border-radius:0.1rem;background:rgba(0,0,0,0.8);color:#ffffff;word-wrap: break-word;transition:fade 1s linear;transition: width 2s;-moz-transition: width 2s;-webkit-transition: width 2s;';
+	    ele.setAttribute('style',eleCSS);
+	    ele.innerHTML=message;
+	    var wid=ele.clientWidth;
+	    document.body.appendChild(board);
+	    setTimeout(function(){
+	        document.body.removeChild(board)
+	    },2000);
+	}
+
+})
+
+
+</script>
+
+<body >
+    <div class="banner">
+    </div>
+	<div class="content">
+	<p>额度申请</p>
+	<input maxlength="11"  value=""/ placeholder="请输入您的真实姓名">
+	<input maxlength="11"  value=""/ placeholder="请输入您的手机号码">
+	<select>
+		<option value="volvo">个人贷款</option>
+		<option value="saab">企业贷款</option>
+	  </select>
+	  <select>
+		<option value="volvo">10万</option>
+		<option value="saab">20万</option>
+	  </select>
+	<a>提交</a>
+	</div>
+	
+</body>
+
+</html>

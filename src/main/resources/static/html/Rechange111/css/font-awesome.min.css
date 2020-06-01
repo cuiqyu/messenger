@@ -1,0 +1,390 @@
+@charset "UTF-8";
+body, html, ul, li, header, section, footer, div, img, p, i, em, strong, span, h1, h2, h3, h4, a, span, ol, b, input, textarea, select, option, table, thead, th, tr {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  box-sizing: border-box;
+  /*-webkit-text-size-adjust:100%;*/
+  /*关闭横竖屏切换时字体大小自动调整功能.*/
+}
+
+body, html {
+  font-family: 'PingFang SC',"Microsoft YaHei",Helvetica,Arial,"Hiragino Sans GB","Microsoft Yahei","微软雅黑",STHeiti,"华文细黑",sans-serif;
+  -webkit-font-smoothing: antialiased;
+  font-size: .14rem;
+  color: #22262E;
+}
+
+#bg-blue {
+  background: #03006d;
+}
+
+#bg-blue img {
+  max-width: 100%;
+}
+
+#bg-blue a {
+  text-decoration: none;
+}
+
+a:hover,
+a:focus, a:active {
+  text-decoration: none;
+}
+
+@media screen and (min-width: 320px) {
+  html {
+    font-size: 85.33333px;
+  }
+}
+
+@media screen and (min-width: 360px) {
+  html {
+    font-size: 96px;
+  }
+}
+
+@media screen and (min-width: 375px) {
+  html {
+    font-size: 100px;
+  }
+}
+
+@media screen and (min-width: 384px) {
+  html {
+    font-size: 102.4px;
+  }
+}
+
+@media screen and (min-width: 391px) {
+  html {
+    font-size: 104.26667px;
+  }
+}
+
+@media screen and (min-width: 412px) {
+  html {
+    font-size: 109.86667px;
+  }
+}
+
+@media screen and (min-width: 414px) {
+  html {
+    font-size: 110.4px;
+  }
+}
+
+@media screen and (min-width: 460px) {
+  html {
+    font-size: 122.66667px;
+  }
+}
+
+@media screen and (min-width: 640px) {
+  html {
+    font-size: 170.66667px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  html {
+    font-size: 204.8px;
+  }
+}
+
+.clearfix:before, .clearfix:after {
+  content: '';
+  clear: both;
+  display: table;
+}
+
+.fr {
+  float: right;
+}
+
+.fl {
+  float: left;
+}
+
+.inline-o {
+  display: inline-block;
+}
+
+.block-o {
+  display: block;
+}
+
+#bg-blue .headImg, #bg-blue .newForm .select-part .checkbox-wrap .checkbox-item, #bg-blue .advantage .title, #bg-blue .advantage .content .adv-item, footer li {
+  text-align: center;
+}
+
+#bg-blue .newForm, #bg-blue .advantage {
+  width: 95%;
+  margin: 0 auto;
+  display: block;
+  box-sizing: border-box;
+}
+
+#bg-blue .newForm .conItem {
+  border-bottom: 1px solid #CBCCDA;
+}
+
+#bg-blue .newForm {
+  background-color: #fff;
+}
+
+#bg-blue .newForm .select-part .checkbox-wrap .checkbox-item.active, #bg-blue .newForm .btn-wrap .btn, #bg-blue .advantage .title, #bg-blue .advantage .content .adv-item .advCon {
+  color: #fff;
+}
+
+#bg-blue .newForm .conItem, #bg-blue .newForm .select-part .checkbox-wrap, #bg-blue .advantage .content {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+input, textarea, button {
+  border: 0;
+  outline: none;
+  vertical-align: middle;
+  -webkit-appearance: none;
+  background-color: transparent;
+}
+
+input::-webkit-input-placeholder {
+  color: #a8adc1;
+  font-family: 'PingFang SC';
+}
+
+input::-moz-input-placeholder {
+  color: #a8adc1;
+  font-family: 'PingFang SC';
+}
+
+input::-ms-input-placeholder {
+  color: #a8adc1;
+  font-family: 'PingFang SC';
+}
+
+#bg-blue .newForm {
+  position: relative;
+  top: -0.16rem;
+  border-radius: 10px;
+}
+
+#bg-blue .newForm .cons {
+  padding: 0.2rem 0.2rem 0;
+}
+
+#bg-blue .newForm .conItem {
+  margin-bottom: 0.2rem;
+  position: relative;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#bg-blue .newForm .conItem .inputItem {
+  flex: 1;
+  color: #22262E;
+  font-size: 0.14rem;
+  padding: 0.06rem 0.12rem;
+  height: 0.44rem;
+}
+
+#bg-blue .newForm .conItem .icon {
+  flex: 0 0 .24rem;
+  width: .24rem;
+}
+
+#bg-blue .newForm .conItem span {
+  flex: 0 0 .4rem;
+  width: .4rem;
+  display: inline-block;
+  text-align: right;
+}
+
+#bg-blue .newForm .conItem #codeBtn{
+  background: #F7F8FC;
+  color: #747f90;
+  height: .3rem;
+  line-height: .3rem;
+  font-size: .14rem;
+  padding: 0 0.16rem;
+  border-radius: 2px;
+}
+
+#bg-blue .newForm .conItem .fa-sort-down {
+  /*margin-right: .12rem;*/
+}
+
+#bg-blue .newForm .conItem input.tmp {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  color: #22262E;
+  font-size: 0.14rem;
+  padding: 0.06rem 0.12rem;
+  height: 0.44rem;
+}
+
+#bg-blue .newForm .tip {
+  padding: 0.1rem 0 0.12rem;
+  font-size: 0.14rem;
+  color: #03006d;
+}
+
+#bg-blue .newForm .select-part {
+  border-top: 1px solid #dcdaff;
+  border-bottom: 1px solid #dcdaff;
+  background-color: #F7F8FC;
+  padding: 0.2rem 0.2rem 0.1rem;
+}
+
+#bg-blue .newForm .select-part .checkbox-wrap {
+  align-items: center;
+  justify-content: flex-start;
+  flex-flow: row wrap;
+}
+
+#bg-blue .newForm .select-part .checkbox-wrap .checkbox-item {
+  flex: 0 0 31%;
+  width: 31%;
+  background: #fff;
+  color: #22262E;
+  border-radius: 5px;
+  font-size: 0.14rem;
+  line-height: 0.4rem;
+  margin-bottom: 0.14rem;
+  transition: all .1s ease;
+  position: relative;
+  margin: 0 0.1rem 0.1rem 0;
+}
+
+#bg-blue .newForm .select-part .checkbox-wrap .checkbox-item .checkbox {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 999;
+}
+
+#bg-blue .newForm .select-part .checkbox-wrap .checkbox-item:nth-child(3n) {
+  margin-right: 0;
+}
+
+#bg-blue .newForm .select-part .checkbox-wrap .checkbox-item.active {
+  background-color: #03006d;
+}
+
+#bg-blue .newForm .btn-wrap {
+  padding: 0.2rem;
+}
+
+#bg-blue .newForm .btn-wrap .btn {
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  background: #f2bf10;
+  font-size: 0.16rem;
+  text-align: center;
+  padding: 0.14rem 0;
+  border-radius: 4px;
+}
+
+/*修改城市弹出框*/
+.mbsc-android-holo .dwv {
+  color: #03006d;
+  border-bottom: 2px solid #03006d;
+}
+
+.mbsc-android-holo .dwwol {
+  border-top: 2px solid #03006d;
+  border-bottom: 2px solid #03006d;
+}
+
+/*优势*/
+#bg-blue .advantage {
+  padding: 0.2rem 0;
+}
+
+#bg-blue .advantage .title h3 {
+  padding-bottom: 0.04rem;
+  font-size: 0.18rem;
+}
+
+#bg-blue .advantage .title .sub-title {
+  position: relative;
+}
+
+#bg-blue .advantage .title .sub-title:after {
+  content: '';
+  display: inline-block;
+  width: 50%;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.7);
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+#bg-blue .advantage .title span {
+  position: relative;
+  background-color: #07016c;
+  z-index: 2;
+  padding: 0 0.04rem;
+  font-size: 0.12rem;
+  font-family: sans-serif;
+  font-weight: 100;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+#bg-blue .advantage .content {
+  align-items: center;
+  justify-content: space-between;
+  flex-flow: row wrap;
+  padding: 0.3rem 0 0;
+}
+
+#bg-blue .advantage .content .adv-item {
+  flex: 0 0 50%;
+  width: 50%;
+  padding-bottom: 0.3rem;
+}
+
+#bg-blue .advantage .content .adv-item .advImg {
+  display: inline-block;
+}
+
+#bg-blue .advantage .content .adv-item .advImg img {
+  display: block;
+  margin: 0 auto;
+  width: 0.8rem;
+}
+
+#bg-blue .advantage .content .adv-item .advCon p {
+  font-size: 0.14rem;
+  font-weight: bold;
+  padding-bottom: 0.04rem;
+}
+
+#bg-blue .advantage .content .adv-item .advCon span {
+  font-size: 0.12rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/*底部*/
+footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.16rem 0;
+}
+
+footer li {
+  font-size: 0.12rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.5;
+}
