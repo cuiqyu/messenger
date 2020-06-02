@@ -25,10 +25,5 @@ public class SmsMessageVO implements Serializable {
      */
     @NonNull
     private String cellphone;
-    /**
-     * 发送的短信内容
-     */
-    @NonNull
-    private String messageContext;
 
 }
