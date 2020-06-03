@@ -86,16 +86,17 @@ public class RateLimiterAspect {
                 } catch (Exception e) {
                 }
             }
-            String[] paramKeys = annotation.paramKeys();
-            for (String paramKey : paramKeys) {
-                Object str;
-                if (null != (str = parseValue(paramKey, JSON.toJSONString(paramMap)))) {
-                    paramKey = paramKey.replaceAll("^\\#\\{(.*)\\}$", "$1").replaceAll("^\\$\\{(.*)\\}$", "$1");
-                    key.append("_").append(paramKey).append(":").append(str.toString());
-                }
-            }
 
             if (ratelimitInterval > 0) {
+                String[] paramKeys = annotation.paramKeys();
+                for (String paramKey : paramKeys) {
+                    Object str;
+                    if (null != (str = parseValue(paramKey, JSON.toJSONString(paramMap)))) {
+                        paramKey = paramKey.replaceAll("^\\#\\{(.*)\\}$", "$1").replaceAll("^\\$\\{(.*)\\}$", "$1");
+                        key.append("_").append(paramKey).append(":").append(str.toString());
+                    }
+                }
+
                 // 尝试访问令牌
                 if (null == RATE_LIMITER_CACHE.get(key.toString())) {
                     RATE_LIMITER_CACHE.put(key.toString(), RateLimiter.create(BigDecimal.ONE.divide(new BigDecimal(ratelimitInterval), 12, BigDecimal.ROUND_HALF_UP).doubleValue()));
