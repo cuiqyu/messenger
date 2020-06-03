@@ -32,10 +32,10 @@ public class LogHawkeyeAspect {
      * 通过注解的形式匹配切入点
      */
     @Pointcut("@annotation(com.limpid.messenger.annotation.LogHawkeye)")
-    public void pointcut() {
+    public void logHaskeye() {
     }
 
-    @Before("pointcut()")
+    @Before("logHaskeye()")
     public void before(JoinPoint joinPoint) {
 
     }
@@ -45,7 +45,7 @@ public class LogHawkeyeAspect {
      *
      * @return
      */
-    @Around("pointcut()")
+    @Around("logHaskeye()")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         // 请求开始的时间戳
         long startTime = System.currentTimeMillis();
@@ -89,7 +89,7 @@ public class LogHawkeyeAspect {
         return proceed;
     }
 
-    @After("pointcut()")
+    @After("logHaskeye()")
     public void after(JoinPoint joinPoint) {
 
     }

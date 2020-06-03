@@ -2,7 +2,6 @@ package com.limpid.messenger.enumeration;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 /**
  * 返回状态定义
@@ -18,6 +17,7 @@ public interface GlobalConstant {
         SUCCESS("0", "成功"),
         PARAM_ERROR("1", "参数错误"),
         FAIL("10", "失败"),
+        FREQUENCY_TOO_FAST("30", "操作过于频繁，请稍后在试"),
         BUSINESS_ERROR("50", "业务异常"),
         NOT_FOUND_SMS_TEMPLATE_TYPE("51", "未找到对应的短信模板配置类型"),
         SMS_SEND_FAIL("52", "短信发送失败，请稍后再试"),

@@ -10,6 +10,7 @@ import com.aliyuncs.exceptions.ServerException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.utils.StringUtils;
+import com.limpid.messenger.annotation.RateLimiter;
 import com.limpid.messenger.cache.VerificationCodeSendTimeCacheService;
 import com.limpid.messenger.config.AliSmsConfig;
 import com.limpid.messenger.enumeration.GlobalConstant;
@@ -94,6 +95,7 @@ public class AliSmsServiceImpl implements AliSmsService {
     }
 
     @Override
+    @RateLimiter(ratelimitInterval = "${sms.ali.verificationCodeInterval}", timeout = 200, paramKeys = {"#{cellphone}"})
     public String sendVerificationCode(String cellphone) {
         CustomExceptionAssert.notEmpty(cellphone, GlobalConstant.ResponseState.CELLPHONE_NOT_NULL);
         // 生成指定位数的随机验证码
@@ -104,14 +106,6 @@ public class AliSmsServiceImpl implements AliSmsService {
         StringBuffer code = new StringBuffer();
         for (int i = 0; i < verificationCodeLength; i++) {
             code.append(random.nextInt(9));
-        }
-
-        // 获取当前时间戳
-        Long currentTimeMillis = System.currentTimeMillis();
-        // 校验当前手机号是否可以发送验证码
-        if (!verificationCodeSendTimeCache.checkSendVerificationCode(cellphone, currentTimeMillis)) {
-            logger.error("你发送的短信验证码过于频繁，两次发送时间间隔不得低于{}s", aliSmsConfig.getVerificationCodeInterval());
-            throw new CustomException(GlobalConstant.ResponseState.VERIFICATION_CODE_ALL_TOO_OFTEN);
         }
 
         // 发送短信验证码
@@ -126,7 +120,6 @@ public class AliSmsServiceImpl implements AliSmsService {
             throw new CustomException(aliSengSmsResponse.getCode(), aliSengSmsResponse.getMessage());
         }
 
-        verificationCodeSendTimeCache.putCache(cellphone, currentTimeMillis);
         return code.toString();
     }
 
