@@ -85,7 +85,7 @@
 		<img src="../images/header.jpg" class="img-responsive" alt="Cinque Terre" style='width:100%;height:auto;'>
 	</header>
 	<!-- 表单 -->
-	<form action="/portal/index/addpost.html" method="post" class="newForm">
+	<form  class="newForm">
 		<div class="cons">
 			<!-- 姓名 -->
 			<div class="conItem">
@@ -110,7 +110,7 @@
 			<!-- 意向金额 -->
 			<div class="conItem">
 				<img src="../images/money.png" alt="" class="icon">
-				<select name="price" id="" class="inputItem" style="border:none;outline: none;background:#fff;">
+				<select name="price" id="price" class="inputItem" style="border:none;outline: none;background:#fff;">
 					<!--<option value='0'>请选择贷款金额</option>-->
 					<option value='30000'>3万</option>
 					<option value='50000'>5万</option>
@@ -125,46 +125,6 @@
 					style="width:49%;float:left;margin-right:2%;border:none;outline: none;background:#fff;"></select>
 				<select class="city inputItem" style="width:49%;float:left;border:none;outline: none;background:#fff;"
 					disabled="disabled"></select>
-				<!--<select name="sheng" id="sheng" style="width:49%;float:left;margin-right:2%;border:none;outline: none;background:#fff;" class="inputItem">
-                                                                    <option  value="110000">北京市</option>
-                                                                        <option  value="120000">天津市</option>
-                                                                        <option  value="130000">河北省</option>
-                                                                        <option  value="140000">山西省</option>
-                                                                        <option  value="150000">内蒙古自治区</option>
-                                                                        <option  value="210000">辽宁省</option>
-                                                                        <option  value="220000">吉林省</option>
-                                                                        <option  value="230000">黑龙江省</option>
-                                                                        <option selected value="310000">上海市</option>
-                                                                        <option  value="320000">江苏省</option>
-                                                                        <option  value="330000">浙江省</option>
-                                                                        <option  value="340000">安徽省</option>
-                                                                        <option  value="350000">福建省</option>
-                                                                        <option  value="360000">江西省</option>
-                                                                        <option  value="370000">山东省</option>
-                                                                        <option  value="410000">河南省</option>
-                                                                        <option  value="420000">湖北省</option>
-                                                                        <option  value="430000">湖南省</option>
-                                                                        <option  value="440000">广东省</option>
-                                                                        <option  value="450000">广西壮族自治区</option>
-                                                                        <option  value="460000">海南省</option>
-                                                                        <option  value="500000">重庆市</option>
-                                                                        <option  value="510000">四川省</option>
-                                                                        <option  value="520000">贵州省</option>
-                                                                        <option  value="530000">云南省</option>
-                                                                        <option  value="540000">西藏自治区</option>
-                                                                        <option  value="610000">陕西省</option>
-                                                                        <option  value="620000">甘肃省</option>
-                                                                        <option  value="630000">青海省</option>
-                                                                        <option  value="640000">宁夏回族自治区</option>
-                                                                        <option  value="650000">新疆维吾尔自治区</option>
-                                                                        <option  value="710000">台湾省</option>
-                                                                        <option  value="810000">香港特别行政区</option>
-                                                                        <option  value="820000">澳门特别行政区</option>
-                                                                </select>
-                            <select name="city" id="city" style="width:49%;float:left;border:none;outline: none;background:#fff;" class="inputItem">
-                                                                    <option value="310100">市辖区</option>
-                                                                        <option value="310200">县</option>
-                                                                </select>-->
 			</div>
 			<p class="tip">完善一下信息可提升您的放款率(可多选)</p>
 		</div>
@@ -288,11 +248,31 @@
 		}
 		//判断userId
 		function userId(access){
-			$.get(apiName+"/user/v2/findUser?access_token="+access+"&name=111", function (msg) {
-				console.log(msg);
+			$.get(apiName+"/user/v2/findUser?access_token="+access+"&name=陈", function (msg) {
+				console.log(msg.data[0].userid);
+				let userId=msg.data[0].userid;
+				window.localStorage.setItem('access',access);
+				window.localStorage.setItem('userId',userId);
+			    
 				
 			});
 		}
+		//新增客户
+		function create(entity){
+			let userId=window.localStorage.getItem('userId');
+			let access=window.localStorage.getItem('access');
+			$.ajax({
+               type: "post",
+               url:apiName+"/crm/v2/create?access_token="+access+"&userid"+userId+"&module=customer&entity="+entity,
+               //contentType: "application/x-www-form-urlencoded",
+               success: function (data) {
+					console.log(data);
+					userId(data.accessToken);
+			   }})
+
+		}
+
+
 		$('#xy').click(function () {
 			var a = $(this).val();
 			if (a == 1) {
@@ -308,75 +288,58 @@
 
 
 		$('#submit').click(function () {
-			var d = {};
 			var is_yes = true;
-			var data = $('form').serializeArray();
-			$.each(data, function () {
-
-				d[this.name] = this.value;
-			});
-
-			if (!d.username) {
+			let name=$("#name").val();
+			let tel=$("#tel").val();
+			let code=$("#code").val();
+			let price=$("#price").find("option:selected").text();
+			let prov=$(".prov").find("option:selected").text();
+			let city=$(".city").find("option:selected").text();
+			if (!name) {
 				alert('请输入姓名');
 				is_yes = false;
 				return false;
 			}
-
-			if (d.price == 0) {
-				alert('请选择贷款额度');
-				is_yes = false;
-				return false;
-			}
-
-			if (!d.sheng) {
-				alert('请选择省份');
-				is_yes = false;
-				return false;
-			}
-
-			if (!d.city) {
-				alert('请选择城市');
-				is_yes = false;
-				return false;
-			}
-
-			if (isPhoneNo(d.tel) == false) {
+			if (isPhoneNo(tel) == false) {
 				alert("请输入正确电话号");
 				is_yes = false;
 				return false;
 			}
 
+			if(!code||code!==window.sessionStorage.getItem('code')){
+				alert("请输入正确验证码");
+				is_yes = false;
+				return false;	
+			}
+			
 			if (is_yes) {
-				$.post("/portal/index/addpost.html", d, function (res) {
-
-
-					if (res == 0) {
-						alert("服务器正忙");
-						return false;
-					}
-
-					if (res == 2) {
-						alert("验证码不正确");
-						return false;
-					}
-					if (res == 6) {
-						alert("服务器正忙");
-						return false;
-					}
-					$('#modal').show();
-					$('#cover').show();
-
-					$.post("/portal/index/cg.html", res, function (res1) {
-						for (var i = 0; i < res1.length; i++) {
-							var workid = 0;
-							workid = res1[i];
-							ws = new WebSocket("ws://127.0.0.1:2000");
-							ws.onopen = function () {
-								alert(workid); ws.send(workid + ',您有新的客户');
-							};
-						};
-					}, 'JSON');
-				}, 'JSON');
+				let entity={
+					"name":"",
+					"manager": {
+						"name": name
+					},
+					"customerStatus": {
+						"name": "正式客户"
+					},
+					"customerType": {
+						"name": "使用客户"
+					},
+					"customerIndustry": {
+						"name": "金融行业"
+					},
+					"customerRegion": {
+						"name": prov
+					},
+					"customerFax": "",
+					"customerEmail": "",
+					"customerZipCode": "",
+					"customerTelephone": tel,
+					"customerWebsite": "",
+					"customerAddress": prov+city,
+					"customerDescription": ""
+			    }
+				create(entity);
+				
 			}
 		});
 
@@ -401,12 +364,13 @@
 			});
 		})
 		//ajax
-		$('#sheng').change(function () {
-			var shengid = $(this).val();
-
-			$.post("/portal/index/citychange.html", { 'shengid': shengid }, function (data) {
-				$('#city').html(data);
-			});
+		//省会
+		$('.prov').change(function () {
+			var prov = $(this).val();
+		});
+		//城市
+		$('.city').change(function () {
+			var city = $(this).val();
 		});
 
 
@@ -419,7 +383,7 @@
 					alert("请输入正确电话号");
 					return false;
 				}
-				$.post("/portal/index/getcode.html", { 'tel': tel }, function (res) {
+				$.post("http://47.101.202.33:8080/messenger/sms/sendMessage", { 'cellphone': tel }, function (res) {
 					if (res == 1) {
 						alert("验证码发送成功");
 					} else {
