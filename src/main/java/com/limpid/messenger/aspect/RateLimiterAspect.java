@@ -1,12 +1,9 @@
 package com.limpid.messenger.aspect;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.aliyuncs.utils.StringUtils;
 import com.google.common.util.concurrent.RateLimiter;
 import com.limpid.messenger.enumeration.GlobalConstant;
 import com.limpid.messenger.exception.CustomException;
-import com.limpid.messenger.util.SpringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -14,17 +11,16 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.DefaultParameterNameDiscoverer;
-import org.springframework.core.ParameterNameDiscoverer;
-import org.springframework.core.env.Environment;
+import org.springframework.expression.EvaluationContext;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 限流切面
@@ -38,9 +34,19 @@ import java.util.concurrent.TimeUnit;
 public class RateLimiterAspect {
 
     private static final ConcurrentHashMap<String, RateLimiter> RATE_LIMITER_CACHE = new ConcurrentHashMap<>();
+    private static final String $EXPRESSION = "^\\$\\{(.*)\\}$";
+    private static final String SPEL_EXPRESSION = "^\\#\\{(.*)\\}$";
+    /**
+     * 用于SpEL表达式解析.
+     */
+    private SpelExpressionParser parser = new SpelExpressionParser();
+    /**
+     * 用于获取方法参数定义名字.
+     */
+    private DefaultParameterNameDiscoverer nameDiscoverer = new DefaultParameterNameDiscoverer();
 
     @Autowired
-    private SpringUtil springUtil;
+    private ApplicationContext applicationContext;
 
     /**
      * 通过注解的形式配置切入点
@@ -67,19 +73,16 @@ public class RateLimiterAspect {
             // 获取参数列表
             Object[] args = point.getArgs();
             // 获取字段名称列表
-            ParameterNameDiscoverer pnd = new DefaultParameterNameDiscoverer();
-            String[] parameterNames = pnd.getParameterNames(method);
-            Map<String, Object> paramMap = new HashMap<>();
+            String[] parameterNames = nameDiscoverer.getParameterNames(method);
+            EvaluationContext context = new StandardEvaluationContext();
             for (int i = 0; i < parameterNames.length; i++) {
-                paramMap.put(parameterNames[i], args[i]);
+                context.setVariable(parameterNames[i], args[i]);
             }
 
             // 获取指定限流的参数维度
             StringBuilder key = new StringBuilder(method.getName());
-            int timeout = annotation.timeout();
-            TimeUnit timeUnit = annotation.timeUnit();
             int ratelimitInterval = 0;
-            String ratelimitIntervalStr = parseValue(annotation.ratelimitInterval(), JSON.toJSONString(paramMap));
+            String ratelimitIntervalStr = spelParseValue(annotation.ratelimitIntervalSpel(), context);
             if (!StringUtils.isEmpty(ratelimitIntervalStr)) {
                 try {
                     ratelimitInterval = Integer.valueOf(ratelimitIntervalStr);
@@ -88,10 +91,10 @@ public class RateLimiterAspect {
             }
 
             if (ratelimitInterval > 0) {
-                String[] paramKeys = annotation.paramKeys();
+                String[] paramKeys = annotation.paramKeySpels();
                 for (String paramKey : paramKeys) {
                     Object str;
-                    if (null != (str = parseValue(paramKey, JSON.toJSONString(paramMap)))) {
+                    if (null != (str = spelParseValue(paramKey, context))) {
                         paramKey = paramKey.replaceAll("^\\#\\{(.*)\\}$", "$1").replaceAll("^\\$\\{(.*)\\}$", "$1");
                         key.append("_").append(paramKey).append(":").append(str.toString());
                     }
@@ -110,38 +113,29 @@ public class RateLimiterAspect {
     }
 
     /**
-     * 解释value值，包含解析${}和#{}表达式
+     * 解释spel表达式的值，包含解析${}和#{}表达式
      *
      * @param value
-     * @param paramMapJson
+     * @param context
      * @return
      */
-    private String parseValue(String value, String paramMapJson) {
-        // 判断value的类型
-        if (StringUtils.isEmpty(value)) {
-            return value;
-        }
-        Environment environment = springUtil.getApplicationContext().getEnvironment();
-        // 处理${}的引用
-        if (value.matches("^\\$\\{(.*)\\}$")) {
-            value = environment.getProperty(value.replaceAll("^\\$\\{(.*)\\}$", "$1"));
-            return value;
-        }
-        if (value.matches("^\\#\\{(.*)\\}$")) {
-            String valueContext = value.replaceAll("^\\#\\{(.*)\\}$", "$1");
-            // 处理#引用类型
-            if (!StringUtils.isEmpty(paramMapJson)) {
-                JSONObject jsonObject = JSON.parseObject(paramMapJson);
-                String[] split = valueContext.split("\\.");
-                for (int i = 0; i < split.length - 1; i++) {
-                    if (null == (jsonObject = JSON.parseObject(JSON.toJSONString(jsonObject.get(split[i]))))) {
-                        return value;
-                    }
+    private String spelParseValue(String value, EvaluationContext context) {
+        try {
+            // 判断value的类型
+            if (value.matches(SPEL_EXPRESSION) || value.indexOf("#") == 0) { // spel表达式
+                value = value.replaceAll(SPEL_EXPRESSION, "$1");
+                if (value.matches($EXPRESSION)) {
+                    return applicationContext.getEnvironment().getProperty(value.replaceAll($EXPRESSION, "$1"));
+                } else {
+                    return parser.parseExpression(value).getValue(context).toString();
                 }
-                valueContext = split[split.length - 1];
-                value = jsonObject.getString(valueContext);
             }
+            if (value.matches($EXPRESSION)) { // $占位符解析
+                return applicationContext.getEnvironment().getProperty(value.replaceAll($EXPRESSION, "$1"));
+            }
+        } catch (Exception e) {
         }
+
         return value;
     }
 

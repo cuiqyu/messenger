@@ -95,7 +95,7 @@ public class AliSmsServiceImpl implements AliSmsService {
     }
 
     @Override
-    @RateLimiter(ratelimitInterval = "${sms.ali.verificationCodeInterval}", timeout = 200, paramKeys = {"#{cellphone}"})
+    @RateLimiter(ratelimitIntervalSpel = "#{${sms.ali.verificationCodeInterval}}", timeout = 200, paramKeySpels = {"#{#cellphone}"})
     public String sendVerificationCode(String cellphone) {
         CustomExceptionAssert.notEmpty(cellphone, GlobalConstant.ResponseState.CELLPHONE_NOT_NULL);
         // 生成指定位数的随机验证码
