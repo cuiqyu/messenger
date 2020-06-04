@@ -1,5 +1,6 @@
 package com.limpid.messenger.vo;
 
+import com.limpid.messenger.enumeration.GlobalConstant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,5 +23,11 @@ public class ResponseData<T> implements Serializable {
     private String code;
     private String message = "";
     private T data;
+
+    public ResponseData(GlobalConstant.ResponseState responseState, T data) {
+        this.data = data;
+        this.code = responseState.getCode();
+        this.message = responseState.getMessage();
+    }
 
 }

@@ -1,6 +1,7 @@
 package com.limpid.messenger.advice;
 
 import com.limpid.messenger.annotation.ResponseDataHandler;
+import com.limpid.messenger.enumeration.GlobalConstant;
 import com.limpid.messenger.vo.ResponseData;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.AnnotatedElementUtils;
@@ -86,9 +87,7 @@ public class GlobalReturnValueHandler implements HandlerMethodReturnValueHandler
                                   ModelAndViewContainer modelAndViewContainer, NativeWebRequest nativeWebRequest) throws Exception {
         if (hasAnnotation(methodParameter)) {
             if (!(o instanceof ResponseData)) {
-                ResponseData<Object> responseData = new ResponseData<>();
-                responseData.setData(o);
-                o = responseData;
+                o = new ResponseData<>(GlobalConstant.ResponseState.SUCCESS, o);
             }
         }
         handlerMethodReturnValueHandler.handleReturnValue(o, methodParameter, modelAndViewContainer, nativeWebRequest);
