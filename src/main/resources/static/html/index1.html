@@ -85,7 +85,7 @@
 		<img src="../images/header.jpg" class="img-responsive" alt="Cinque Terre" style='width:100%;height:auto;'>
 	</header>
 	<!-- 表单 -->
-	<form  class="newForm">
+	<form class="newForm">
 		<div class="cons">
 			<!-- 姓名 -->
 			<div class="conItem">
@@ -225,50 +225,89 @@
 	<script src="../js/mobiscroll-2.13.2.full.min.js"></script>
 	<script type="text/javascript" src="../js/jquery.cityselect.js"></script>
 	<script>
-		let apiName='https://api.eteams.cn';
+		let apiName = 'https://api.eteams.cn';
+		//code码验证
 		function authorize() {
-			$.get(apiName+"/oauth2/authorize?corpid=bcb0da1b7e81d73d3d4288690b7e96c2&response_type=code&state=a", function (msg) {
-				console.log(msg.code);
-				if (msg.code) {
-					token(msg.code);
+			$.get(apiName + "/oauth2/authorize?corpid=bcb0da1b7e81d73d3d4288690b7e96c2&response_type=code&state=a", function (
+				msg) {
+				console.log(msg);
+				if (msg.errmsg==="success") {
+					window.sessionStorage.setItem('authorize', JSON.stringify({
+						code: msg.code,
+						expiresin: new Date().getTime() + (10*60*1000) //expires_in 的单位是秒，变成毫秒要*1000 10分钟作废
+					}));
+					getToken();
+				}else{
+					alert('接口访问错误');
 				}
 			});
 		};
-		authorize();
-        //判断token
-		function token(code){
-			$.ajax({
-                type: "post",
-               url:apiName+"/oauth2/access_token?app_key=ae825caafd21ac69d52f0ce264c81228&app_secret=b44ab81be965708310e517f01084d16a&grant_type=authorization_code&code="+code,
-               contentType: "application/x-www-form-urlencoded",
-               success: function (data) {
-					console.log(data);
-					userId(data.accessToken);
-			   }})
+
+		//判断token
+		function getToken() {
+			if (window.sessionStorage.authorize) {
+				const whether = new Date().getTime() < JSON.parse(window.sessionStorage.authorize).expiresin; //缓存中的 expires_in 字段是否过期，true表示没过期，false表示过期
+				if (whether) { //code未到期
+					$.ajax({
+						type: "post",
+						url: apiName +
+							"/oauth2/access_token?app_key=ae825caafd21ac69d52f0ce264c81228&app_secret=b44ab81be965708310e517f01084d16a&grant_type=authorization_code&code=" +
+							JSON.parse(window.sessionStorage.authorize).code,
+						contentType: "application/x-www-form-urlencoded",
+						success: function (data) {
+							console.log(data);
+							window.sessionStorage.setItem('tokenData', JSON.stringify({
+								token: data.accessToken,
+								expiresin: new Date().getTime() + (data.expires_in *
+									1000) //expires_in 的单位是秒，变成毫秒要*10000 2小时作废
+							}));
+							userId();
+						}
+					})
+				}
+
+
+			} else {
+				authorize();
+			}
+
 		}
+		userId();
 		//判断userId
-		function userId(access){
-			$.get(apiName+"/user/v2/findUser?access_token="+access+"&name=陈", function (msg) {
-				console.log(msg.data[0].userid);
-				let userId=msg.data[0].userid;
-				window.localStorage.setItem('access',access);
-				window.localStorage.setItem('userId',userId);
-			    
-				
-			});
+		function userId() {
+			if (window.sessionStorage.tokenData) {
+				const whether = new Date().getTime() < JSON.parse(window.sessionStorage.tokenData)
+					.expiresin; //缓存中的 expires_in 字段是否过期，true表示没过期，false表示过期
+				if (whether) { //token未到期
+					$.get(apiName + "/user/v2/findUser?access_token=" + JSON.parse(window.sessionStorage.tokenData).token + "&name=陈", function (msg) {
+						console.log(JSON.stringify(msg.data));
+						JSON.stringify(msg.data);
+						let userId = String(msg.data[0].userid);
+						window.sessionStorage.setItem('userId', userId);
+					});
+				} else {
+					console.log('token已到期');
+					getToken(); //获取token字段
+				}
+			} else {
+				getToken(); //获取token字段
+			}
+
 		}
 		//新增客户
-		function create(entity){
-			let userId=window.localStorage.getItem('userId');
-			let access=window.localStorage.getItem('access');
+		function create(entity) {
+			let userId = Number(window.sessionStorage.getItem('userId'));
+			console.log('userId+++'+userId+typeof(userId));
 			$.ajax({
-               type: "post",
-               url:apiName+"/crm/v2/create?access_token="+access+"&userid"+userId+"&module=customer&entity="+entity,
-               //contentType: "application/x-www-form-urlencoded",
-               success: function (data) {
+				type: "post",
+				url: apiName + "/crm/v2/create",
+				contentType: "application/x-www-form-urlencoded",
+				data:{access_token:JSON.parse(window.sessionStorage.tokenData).token,userid:userId,module:'customer',entity:JSON.stringify(entity)},
+				success: function (data) {
 					console.log(data);
-					userId(data.accessToken);
-			   }})
+					
+				}
+			})
 
 		}
 
@@ -289,12 +328,12 @@
 
 		$('#submit').click(function () {
 			var is_yes = true;
-			let name=$("#name").val();
-			let tel=$("#tel").val();
-			let code=$("#code").val();
-			let price=$("#price").find("option:selected").text();
-			let prov=$(".prov").find("option:selected").text();
-			let city=$(".city").find("option:selected").text();
+			let name = $("#name").val();
+			let tel = $("#tel").val();
+			let code = $("#code").val();
+			let price = $("#price").find("option:selected").text();
+			let prov = $(".prov").find("option:selected").text();
+			let city = $(".city").find("option:selected").text();
 			if (!name) {
 				alert('请输入姓名');
 				is_yes = false;
@@ -305,24 +344,42 @@
 				is_yes = false;
 				return false;
 			}
-
-			if(!code||code!==window.sessionStorage.getItem('code')){
-				alert("请输入正确验证码");
+			if(!code || !window.sessionStorage.messageCode){
+				alert("请输入验证码");
 				is_yes = false;
-				return false;	
+				return false;
+
+			}else{
+				console.log(JSON.parse(window.sessionStorage.messageCode).expiresin-new Date().getTime());
+				const whether = new Date().getTime() < JSON.parse(window.sessionStorage.messageCode).expiresin; //缓存中的 expires_in 字段是否过期，true表示没过期，false表示过期
+				console.log(whether);
+				  if (whether) {//token未到期
+					console.log(typeof(code));
+					console.log(JSON.parse(window.sessionStorage.messageCode).code);
+                     if(code !== JSON.parse(window.sessionStorage.messageCode).code){
+						alert("请输入正确验证码");
+				        is_yes = false;
+				         return false;
+					 }
+				  }else{
+					alert("请输入正确验证码");
+				    is_yes = false;
+				    return false;
+
+				  }
 			}
-			
+
 			if (is_yes) {
-				let entity={
-					"name":"",
+				let entity = {
+					"name": "",
 					"manager": {
 						"name": name
 					},
 					"customerStatus": {
-						"name": "正式客户"
+						"name": "基础客户"
 					},
 					"customerType": {
-						"name": "使用客户"
+						"name": "客户"
 					},
 					"customerIndustry": {
 						"name": "金融行业"
@@ -335,11 +392,11 @@
 					"customerZipCode": "",
 					"customerTelephone": tel,
 					"customerWebsite": "",
-					"customerAddress": prov+city,
+					"customerAddress": prov + city,
 					"customerDescription": ""
-			    }
+				}
 				create(entity);
-				
+
 			}
 		});
 
@@ -383,13 +440,25 @@
 					alert("请输入正确电话号");
 					return false;
 				}
-				$.post("http://47.101.202.33:8080/messenger/sms/sendMessage", { 'cellphone': tel }, function (res) {
-					if (res == 1) {
-						alert("验证码发送成功");
-					} else {
-						alert('服务器内部错误');
+				$.ajax({
+					type: "post",
+					url: "/messenger/sms/sendMessage",
+					contentType: "application/json",
+					data: JSON.stringify({'cellphone':tel}),
+                    dataType: "json",
+					success: function (data) {
+						console.log(data);
+						if(data.message==='成功'){
+							window.sessionStorage.setItem('messageCode', JSON.stringify({
+								code: data.data,
+								expiresin: new Date().getTime() + (15*60*1000) //expires_in 的单位是秒，变成毫秒要*1000 10分钟作废
+					      }));
+							
+						}
+						
 					}
-				});
+			   })
+				
 			}
 			if (countdown == 0) {
 				obj.removeAttribute("disabled");
@@ -402,7 +471,9 @@
 				countdown--;
 			}
 
-			setTimeout(function () { settime(obj) }, 1000)
+			setTimeout(function () {
+				settime(obj)
+			}, 1000)
 		}
 
 		$(function () {
