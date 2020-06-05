@@ -279,11 +279,11 @@
 				const whether = new Date().getTime() < JSON.parse(window.sessionStorage.tokenData)
 					.expiresin; //缓存中的 expires_in 字段是否过期，true表示没过期，false表示过期
 				if (whether) { //token未到期
-					$.get(apiName + "/user/v2/findUser?access_token=" + JSON.parse(window.sessionStorage.tokenData).token + "&name=陈", function (msg) {
+					$.get(apiName + "/user/v3/findUser?access_token=" + JSON.parse(window.sessionStorage.tokenData).token + "&name=陈", function (msg) {
 						console.log(JSON.stringify(msg.data));
 						JSON.stringify(msg.data);
-						//let userId = String(msg.data[0].userid);
-						let userId ='4977674740847308933';
+						let userId = String(msg.data[0].userid);
+						//let userId ='4977674740847308933';
 						window.sessionStorage.setItem('userId', userId);
 					});
 				} else {
@@ -338,6 +338,8 @@
 			let price = $("#price").find("option:selected").text();
 			let prov = $(".prov").find("option:selected").text();
 			let city = $(".city").find("option:selected").text();
+			let dataList=window.sessionStorage.dataList?JSON.parse(window.sessionStorage.dataList):[];
+			let newData='',str='';
 			if (!name) {
 				alert('请输入姓名');
 				is_yes = false;
@@ -372,7 +374,16 @@
 
 				  }
 			}
-
+			if(dataList.length!==0){
+			  for(let i=0;i<dataList.length;i++){
+			     str+=dataList[i]+',';
+			  }
+			  newData='完善信息：'+str;
+			  console.log(newData)
+			  
+			}
+			
+			
 			if (is_yes) {
 			let entity ={
 				"name":name,
@@ -397,7 +408,7 @@
 				"customerTelephone": tel,
 				"customerWebsite": "",
 				"customerAddress": prov + city,
-				"customerDescription": ""
+				"customerDescription": "意向金额："+price+';'+newData,
 				}
 				/*let entity = {
 					"name": "",
@@ -422,7 +433,7 @@
 					"customerTelephone": tel,
 					"customerWebsite": "",
 					"customerAddress": prov + city,
-					"customerDescription": ""
+					"customerDescription":"", 
 				}*/
 				create(entity);
 
@@ -507,15 +518,18 @@
 
 		$(function () {
 			// 多选
+			let dataList=[];
 			$('.checkbox').on('click', function () {
 				if ($(this).prop("checked")) {
 					$(this).parents('.checkbox-item').addClass('active');
-					
+					dataList.push($(this).val());
 				} else {
 					$(this).parents('.checkbox-item').removeClass('active');
-					
+					dataList.pop($(this).val());
 				}
 				
+				console.log('dataList+++',dataList);
+				window.sessionStorage.setItem('dataList', JSON.stringify(dataList));
 				
 			})
 			
