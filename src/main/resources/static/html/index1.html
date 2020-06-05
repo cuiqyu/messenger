@@ -167,7 +167,7 @@
 					style="margin-left:5px;font-size:13px;">提交表示同意《保密协议和隐私协议》</a>
 			</div>
 			<input type="hidden" name="type" value="7">
-			<a class="btn" id="submit" href="###">看 看 我 能 借 多 少</a>
+			<a class="btn" id="submit">看 看 我 能 借 多 少</a>
 		</div>
 	</form>
 	<!-- 优势 -->
@@ -282,7 +282,8 @@
 					$.get(apiName + "/user/v2/findUser?access_token=" + JSON.parse(window.sessionStorage.tokenData).token + "&name=陈", function (msg) {
 						console.log(JSON.stringify(msg.data));
 						JSON.stringify(msg.data);
-						let userId = String(msg.data[0].userid);
+						//let userId = String(msg.data[0].userid);
+						let userId ='4977674740847308933';
 						window.sessionStorage.setItem('userId', userId);
 					});
 				} else {
@@ -296,8 +297,8 @@
 		}
 		//新增客户
 		function create(entity) {
-			let userId = Number(window.sessionStorage.getItem('userId'));
-			console.log('userId+++'+userId+typeof(userId));
+			let userId = window.sessionStorage.getItem('userId');
+			console.log('userId+++'+userId);
 			$.ajax({
 				type: "post",
 				url: apiName + "/crm/v2/create",
@@ -305,10 +306,13 @@
 				data:{access_token:JSON.parse(window.sessionStorage.tokenData).token,userid:userId,module:'customer',entity:JSON.stringify(entity)},
 				success: function (data) {
 					console.log(data);
-					
-				}
+					if(data.message.errcode==='0'){
+						alert('提交成功！');
+                    }else{
+						alert(data.message.errmsg);
+				    }
+			    }
 			})
-
 		}
 
 
@@ -370,7 +374,32 @@
 			}
 
 			if (is_yes) {
-				let entity = {
+			let entity ={
+				"name":name,
+				"manager": {
+				"name": "陈"
+				},
+				"customerStatus": {
+				"name": "基础"
+				},
+				"customerType": {
+				"name": "客户"
+				},
+				"customerIndustry": {
+				"name": "销售"
+				},
+				"customerRegion": {
+				"name": prov
+				},
+				"customerFax": "",
+				"customerEmail": "",
+				"customerZipCode": "",
+				"customerTelephone": tel,
+				"customerWebsite": "",
+				"customerAddress": prov + city,
+				"customerDescription": ""
+				}
+				/*let entity = {
 					"name": "",
 					"manager": {
 						"name": name
@@ -394,7 +423,7 @@
 					"customerWebsite": "",
 					"customerAddress": prov + city,
 					"customerDescription": ""
-				}
+				}*/
 				create(entity);
 
 			}
@@ -477,29 +506,19 @@
 		}
 
 		$(function () {
-			// 岗位切换
-			$("#cities").mobiscroll().treelist({
-				theme: "android-ics light",
-				lang: "zh",
-				display: 'bottom',
-				inputClass: 'tmp',
-				defaultValue: [Math.floor($('#cities li').length / 2)],
-				headerText: '城市',
-				onSelect: function (valueText) {
-					var m = $(this).find("li").eq(valueText).html();
-					console.log(m, $('.tmp'));
-					$('.tmp').val('');
-					$('.tmp').prev().prev().val(m);
-				}
-			});
 			// 多选
 			$('.checkbox').on('click', function () {
 				if ($(this).prop("checked")) {
-					$(this).parents('.checkbox-item').addClass('active')
+					$(this).parents('.checkbox-item').addClass('active');
+					
 				} else {
-					$(this).parents('.checkbox-item').removeClass('active')
+					$(this).parents('.checkbox-item').removeClass('active');
+					
 				}
+				
+				
 			})
+			
 		})
 	</script>
 </body>
