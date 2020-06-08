@@ -279,19 +279,22 @@
 				const whether = new Date().getTime() < JSON.parse(window.sessionStorage.tokenData)
 					.expiresin; //缓存中的 expires_in 字段是否过期，true表示没过期，false表示过期
 				if (whether) { //token未到期
-					$.get(apiName + "/user/v3/findUser?access_token=" + JSON.parse(window.sessionStorage.tokenData).token + "&name=陈", function (msg) {
-						console.log(JSON.stringify(msg.data));
-						JSON.stringify(msg.data);
-						let userId = String(msg.data[0].userid);
-						//let userId ='4977674740847308933';
+					$.get(apiName + "/user/v3/findUser?access_token=" + JSON.parse(window.sessionStorage.tokenData).token + "&name=陈恩乐", function (msg) {
+						console.log(msg);
+						//let userId = String(msg.data[0].userid);
+						let userId ='4977674740847308933';
 						window.sessionStorage.setItem('userId', userId);
 					});
 				} else {
 					console.log('token已到期');
+					window.sessionStorage.removeItem('authorize');
+					window.sessionStorage.removeItem('tokenData');
 					getToken(); //获取token字段
 				}
 			} else {
+			    window.sessionStorage.removeItem('authorize');
 				getToken(); //获取token字段
+				
 			}
 
 		}
@@ -388,19 +391,19 @@
 			let entity ={
 				"name":name,
 				"manager": {
-				"name": "陈"
+				"name": "陈恩乐"
 				},
 				"customerStatus": {
-				"name": "基础"
+				"name": "0星"
 				},
 				"customerType": {
-				"name": "客户"
+				"name": "最终客户"
 				},
 				"customerIndustry": {
 				"name": "销售"
 				},
 				"customerRegion": {
-				"name": prov
+				"name":"上海"
 				},
 				"customerFax": "",
 				"customerEmail": "",
@@ -408,7 +411,7 @@
 				"customerTelephone": tel,
 				"customerWebsite": "",
 				"customerAddress": prov + city,
-				"customerDescription": "意向金额："+price+';'+newData,
+				"customerDescription": "意向金额："+price+';'+newData+"地区:"+prov +"\xa0"+ city,
 				}
 				/*let entity = {
 					"name": "",
@@ -534,6 +537,7 @@
 			})
 			
 		})
+
 	</script>
 </body>
 
